@@ -9,7 +9,8 @@ const authMiddleware = require("./auth"); // JWT validation ke liye ye middlewar
 const app = express(); //express app bnaya hai
 app.use(express.json());//requests ko json format mei read karne ke liye
 
-const mongoURI = "mongodb://127.0.0.1:27017/jwt_project"; 
+const SECRET_KEY = process.env.SECRET_KEY;
+const mongoURI =process.env.URI; 
 mongoose.connect(process.env.URI) //mongodb se connection setup karne ke liye
     .then(() => console.log("MongoDB Connected Successfully!"))// agar successful hua toh ye ayega
     .catch((err) => console.log("MongoDB Connection Error:", err));// error aya toh ye ayega
@@ -70,11 +71,11 @@ app.post("/login-user", async (req, res) => {
         res.status(200).json({ message: "Login successful!", token });
     } catch (error) { // agar sab sahi hua toh user ko token return karega
         console.error("Error:", error);
-        res.status(500).json({ message: "Internal server error" }); // vsrns error throw krega
+        res.status(500).json({ message: "Internal server error" }); // varna error throw krega
     }
 });
 
-// ✅ JWT Token Validate Karne ka API
+// JWT Token Validate Karne ka API
 app.get("/validate-user", authMiddleware, (req, res) => {
     try {
         // If authMiddleware passes, token is valid

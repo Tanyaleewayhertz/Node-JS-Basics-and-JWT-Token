@@ -9,7 +9,7 @@ const authMiddleware = (req, res, next) => {
     }
 
     try {
-        const decoded = jwt.verify(token.replace("Bearer ", ""), SECRET_KEY);//replace("Bearer ", "") ka matlab hai "Bearer " prefix ko remove karna, kyunki header me token "Bearer <JWT_TOKEN>" format me aata hai.
+        const decoded = jwt.verify(token.replace("Bearer ", ""),process.env.SECRET_KEY);//replace("Bearer ", "") ka matlab hai "Bearer " prefix ko remove karna, kyunki header me token "Bearer <JWT_TOKEN>" format me aata hai.
         req.user = decoded;   // agar sahi hai toh decode variable mei token ki information ayegi
         next();
     } catch (error) {
